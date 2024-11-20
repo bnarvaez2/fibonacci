@@ -1,5 +1,7 @@
 package com.proteccion.fibonacci.controller;
 
+import static com.proteccion.fibonacci.util.Constants.PATTERN_HOURS;
+import static com.proteccion.fibonacci.util.Constants.SERIES_GENERATED;
 import static com.proteccion.fibonacci.util.ResponseUtil.response;
 
 import com.proteccion.fibonacci.dto.FibonacciResponse;
@@ -32,11 +34,11 @@ public class FibonacciController {
   @Operation(summary = "Genera la serie Fibonacci", description = "Devuelve una lista con la serie Fibonacci generada")
   public ResponseEntity<GenericResponse> generateFibonacci(
     @NotNull(message = "time is missing")
-    @Pattern(regexp = "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$", message = "time is not valid")
+    @Pattern(regexp = PATTERN_HOURS, message = "time is not valid")
     @RequestParam String time) {
     val fibonacciSerie = fibonacciService.generateFibonacci(time);
 
-    return response("Fibonacci series was successfully generated" , fibonacciSerie.toString(), HttpStatus.OK);
+    return response(SERIES_GENERATED , fibonacciSerie.toString(), HttpStatus.OK);
   }
 
   @PostMapping()
@@ -47,7 +49,7 @@ public class FibonacciController {
 
     val fibonacciSerie = fibonacciService.generateFibonacci(now.format(formatter));
 
-    return response("Fibonacci series was successfully generated" , fibonacciSerie.toString(), HttpStatus.OK);
+    return response(SERIES_GENERATED , fibonacciSerie.toString(), HttpStatus.OK);
   }
 
   @GetMapping()

@@ -1,8 +1,10 @@
 package com.proteccion.fibonacci.service.impl;
 
 import static com.proteccion.fibonacci.service.mapper.FibonacciMapper.FIBONACCI_MAPPER;
+import static com.proteccion.fibonacci.util.DateUtil.validateHours;
 
 import com.proteccion.fibonacci.dto.FibonacciResponse;
+import com.proteccion.fibonacci.exception.InternalServerErrorException;
 import com.proteccion.fibonacci.repository.FibonacciRepository;
 import com.proteccion.fibonacci.repository.model.FibonacciEntity;
 import com.proteccion.fibonacci.service.EmailService;
@@ -29,6 +31,8 @@ public class FibonacciServiceImpl implements FibonacciService {
   @Override
   @Transactional
     public List<Integer> generateFibonacci(String time) {
+    validateHours(time);
+
     LocalTime localTime = LocalTime.parse(time);
     int xSeed = localTime.getMinute() / 10;
     int ySeed = localTime.getMinute() % 10;
@@ -43,10 +47,14 @@ public class FibonacciServiceImpl implements FibonacciService {
     }
 
     fibonacciSeries.sort(Collections.reverseOrder());
-    FibonacciEntity entity = new FibonacciEntity();
-    entity.setSerie(fibonacciSeries.toString());
-    entity.setExecutionHour(time);
-    fibonacciRepository.save(entity);
+    try {
+      FibonacciEntity entity = new FibonacciEntity();
+      entity.setSerie(fibonacciSeries.toString());
+      entity.setExecutionHour(time);
+      fibonacciRepository.save(entity);
+    } catch (Exception e) {
+      throw new InternalServerErrorException("Ocurrió un error al generar la serie. Error : " + e.getMessage());
+    }
 
     emailSender.sendFibonacciMail(fibonacciSeries);
 

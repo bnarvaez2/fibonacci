@@ -1,9 +1,14 @@
 package com.proteccion.fibonacci.config;
 
+import static com.proteccion.fibonacci.util.Constants.INTERNAL_ERROR;
+import static com.proteccion.fibonacci.util.Constants.PARAMS_ERROR;
+import static com.proteccion.fibonacci.util.Constants.VALIDATION_ERROR;
 import static com.proteccion.fibonacci.util.ResponseUtil.response;
 import static java.util.Objects.requireNonNull;
 
 import com.proteccion.fibonacci.dto.GenericResponse;
+import com.proteccion.fibonacci.exception.BadRequestException;
+import com.proteccion.fibonacci.exception.InternalServerErrorException;
 import jakarta.validation.ConstraintViolationException;
 import java.util.Arrays;
 import java.util.List;
@@ -25,22 +30,32 @@ public class ExceptionHandlerConfig {
 
   @ExceptionHandler(WebExchangeBindException.class)
   public ResponseEntity<GenericResponse> validationException(WebExchangeBindException e) {
-    return response("VALIDATION ERROR", getMessage(e.getAllErrors()), HttpStatus.BAD_REQUEST);
+    return response(VALIDATION_ERROR, getMessage(e.getAllErrors()), HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public ResponseEntity<GenericResponse> validationException(MethodArgumentNotValidException ex) {
-    return response("VALIDATION ERROR", getMessage(ex.getAllErrors()), HttpStatus.BAD_REQUEST);
+    return response(VALIDATION_ERROR, getMessage(ex.getAllErrors()), HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(BadRequestException.class)
+  public ResponseEntity<GenericResponse> validationException(BadRequestException ex) {
+    return response(VALIDATION_ERROR, ex.getMessage(), HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(InternalServerErrorException.class)
+  public ResponseEntity<GenericResponse> validationException(InternalServerErrorException ex) {
+    return response(INTERNAL_ERROR, ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
   @ExceptionHandler(HandlerMethodValidationException.class)
   public ResponseEntity<GenericResponse> validationException(HandlerMethodValidationException ex) {
-    return response("PARAMS ERROR", getMessage(ex.getDetailMessageArguments()), HttpStatus.BAD_REQUEST);
+    return response(PARAMS_ERROR, getMessage(ex.getDetailMessageArguments()), HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(ConstraintViolationException.class)
   public ResponseEntity<GenericResponse> validationException(ConstraintViolationException ex) {
-    return response("PARAMS ERROR", ex.getMessage(), HttpStatus.BAD_REQUEST);
+    return response(PARAMS_ERROR, ex.getMessage(), HttpStatus.BAD_REQUEST);
   }
 
   private String getMessage(List<ObjectError> errors) {
