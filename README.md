@@ -38,7 +38,7 @@ El servicio web expone una API REST que permite calcular la secuencia de Fibonac
 
 4. Ejecuta el contenedor de Docker:
     ```bash
-    docker run -p 8080:8080 fibonacci-service
+    docker run -p 8081:8081 fibonacci-service
     ```
 
 ## Documentación
