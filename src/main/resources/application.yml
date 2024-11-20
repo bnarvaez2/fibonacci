@@ -7,8 +7,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: ${EMAIL_USARENAME}
-    password: ${EMAIL_PASSWORD}
+    username: AquiDebeIrElCorreoRemitente
+    password: contraseñaDelRemitente
     properties:
       mail:
         smtp:
@@ -34,4 +34,4 @@ spring:
 
 config:
   mail:
-    to: ${EMAILS}
+    to: "didier.correa@proteccion.com.co,correalondon@gmail.com"

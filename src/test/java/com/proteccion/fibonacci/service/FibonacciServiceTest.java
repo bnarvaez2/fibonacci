@@ -18,7 +18,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
@@ -30,7 +29,7 @@ import static org.mockito.Mockito.when;
 public class FibonacciServiceTest {
 
   @Mock
-  private JavaMailSender emailSender;
+  private EmailService emailSender;
 
   @Mock
   private FibonacciRepository fibonacciRepository;
@@ -54,7 +53,7 @@ public class FibonacciServiceTest {
 
     fibonacciService.generateFibonacci(time);
 
-    verify(emailSender, times(1)).send(any(SimpleMailMessage.class));
+    verify(emailSender, times(1)).sendFibonacciMail(any());
     verify(fibonacciRepository, times(1)).save(any(FibonacciEntity.class));
   }
 
