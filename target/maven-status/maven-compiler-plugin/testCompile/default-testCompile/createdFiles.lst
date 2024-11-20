@@ -1,0 +1,3 @@
+com\proteccion\fibonacci\FibonacciApplicationTests.class
+com\proteccion\fibonacci\service\EmailServiceTest.class
+com\proteccion\fibonacci\service\FibonacciServiceTest.class
