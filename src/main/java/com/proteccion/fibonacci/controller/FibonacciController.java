@@ -5,9 +5,10 @@ import static com.proteccion.fibonacci.util.ResponseUtil.response;
 import com.proteccion.fibonacci.dto.FibonacciResponse;
 import com.proteccion.fibonacci.dto.GenericResponse;
 import com.proteccion.fibonacci.service.FibonacciService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -22,11 +23,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/fibonacci")
 @RequiredArgsConstructor
+@Tag(name = "Fibonacci Controller")
 public class FibonacciController {
 
   private final FibonacciService fibonacciService;
 
   @PostMapping("/generate")
+  @Operation(summary = "Genera la serie Fibonacci", description = "Devuelve una lista con la serie Fibonacci generada")
   public ResponseEntity<GenericResponse> generateFibonacci(
     @NotNull(message = "time is missing")
     @Pattern(regexp = "^(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d$", message = "time is not valid")
@@ -37,6 +40,7 @@ public class FibonacciController {
   }
 
   @PostMapping()
+  @Operation(summary = "Genera la serie Fibonacci", description = "Devuelve una lista con la serie Fibonacci generada")
   public ResponseEntity<GenericResponse> generateFibonacci() {
     LocalTime now = LocalTime.now();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -47,6 +51,7 @@ public class FibonacciController {
   }
 
   @GetMapping()
+  @Operation(summary = "Genera la serie Fibonacci", description = "Devuelve una lista con todas las series de Fibonacci generada")
   public List<FibonacciResponse> getFibonacciSeries() {
     return fibonacciService.getFibonacciSeries();
   }

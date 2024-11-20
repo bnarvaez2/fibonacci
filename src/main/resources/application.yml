@@ -16,6 +16,10 @@ spring:
           starttls:
             enable: true
 
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
   datasource:
     url: jdbc:h2:mem:fibonaccidb;DB_CLOSE_ON_EXIT=FALSE
     driver-class-name: org.h2.Driver
