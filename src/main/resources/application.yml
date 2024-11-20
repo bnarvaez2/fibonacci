@@ -1,0 +1,33 @@
+server:
+  port: ${APP_PORT:8081}
+spring:
+  application:
+    name: fibonacci
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${EMAIL_USARENAME}
+    password: ${EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+  datasource:
+    url: jdbc:h2:mem:fibonaccidb;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+config:
+  mail:
+    to: ${EMAILS}
